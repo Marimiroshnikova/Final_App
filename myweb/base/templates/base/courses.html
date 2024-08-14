@@ -1,0 +1,112 @@
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 9fr;
+    }
+
+    .levels {
+        margin: 37px 20px;
+    }
+
+
+    .some{
+        margin: 37px 20px;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row
+    }
+
+</style>
+
+
+<!--    <div class="home-container">-->
+<!--    <div class="levels">-->
+<!--        <h3>Levels:</h3>-->
+<!--        <br>-->
+<!--        <a href="{{ request.path }}">All</a>-->
+<!--        {% for level in levels %}-->
+<!--        <hr>-->
+<!--            <a href="{{ request.path }}?q={{ level.level }}" >{{ level }}</a>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+
+    <div class="home-container">
+    <div class="levels">
+        <h3>Levels:</h3>
+        <br>
+        <a href="{% url 'home' %}">All</a>
+        {% for level in levels %}
+        <hr>
+            <a href="{{ request.path }}?q={{ level.level }}" >{{ level }}</a>
+        {% endfor %}
+    </div>
+
+
+
+    <div>
+            <br>
+                <div class = "object" >
+                    <h1 id = "first" >{{ heading }}</h1>
+
+                </div>
+                <hr>
+            <br>
+
+
+            <div>
+                <a class="btn btn--main" href="{% url 'add' %}">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                        <title>Add Course</title>
+                        <path d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"></path>
+                    </svg>
+                Add Course
+                </a>
+                <br>
+            </div>
+
+
+
+
+
+            <div class="row" >
+                    {% for course in courses %}
+
+                        <div class="card" style="width: 18rem; margin: 10PX;">
+                          <img height = "300px" src="{{course.picture.url}}" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">{{course.name}}</h5>
+                                  <h6 class = "card-title">{{course.group}}</h6>
+                                    <h6 class = "card-title">{{course.price}}</h6>
+                                <p class="card-text">{{course.description | slice:":100"}}</p>
+
+                                   <a href="{% url 'open' course.id %}" class="btn btn-primary">open</a>
+
+                                  {% if request.user.is_authenticated %}
+
+                                        {% if course in request.user.courses.all %}
+                                            <a href="{% url 'drop'  course.id %}" class="btn btn-primary">Drop</a>
+                                    {% else %}
+                                            <a href="{% url 'adding'  course.id %}" class="btn btn-primary">Add</a>
+                                    {% endif %}
+
+                                    {% if request.user == course.creator %}
+
+                                    <a href="{% url 'delete' course.id%}" class="btn btn-primary">Delete</a>
+
+                                    {% endif %}
+
+
+                                  {% endif %}
+
+
+
+
+                              </div>
+                        </div>
+
+                     {% endfor %}
+            </div>
+    </div>
+</div>

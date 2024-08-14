@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+
+{% block title %} <title>Open Course Page</title> {% endblock %}
+
+
+    {% block content %}
+
+        <h1> {{ course.name }}</h1>
+        <h2>
+            {% for level in course.level.all %}
+            {{ level }} level
+            {% endfor %}
+        </h2>
+        <h3> {{ course.format }}</h3>
+        <h4> {{ course.time }}</h4>
+        <h5> {{ course.price}}</h5>
+
+        <br><br><br>
+
+<p>{{ course.description }}</p>
+{% load static %}
+
+<embed src="{% static course.file.url %}" width="100%" height="1000px" scrolling="auto">
+
+<br><br>
+
+<div style="margin-left: 30px">
+    <h1>Comments:</h1>
+
+    {% if request.user.is_authenticated %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-floating" style="margin-bottom: 50px;">
+                <textarea class="form-control" placeholder="Leave a comment here" name="body" id="floatingTextarea2" style="height: 100px"></textarea>
+                <label for="floatingTextarea2"></label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    {% endif %}
+
+    <br>
+
+    {% if comments %}
+        <p>Number of comments: {{ comments.count }}</p>
+        {% for comment in comments %}
+            <div style="display: flex; align-items: flex-start; margin-bottom: 20px;">
+                <a href="{% url 'profile' comment.user.id %}" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <img src="{{ comment.user.avatar.url }}" width="40px" height="40px" style="border-radius: 50%; margin-right: 15px;">
+                    <div>
+                        <div style="font-weight: bold;">@{{ comment.user.username }}</div>
+                        <div>    {{ comment.body }}</div>
+                    </div>
+                </a>
+                <span style="margin-left: auto; color: gray;">{{ comment.created | timesince }}</span>
+                {% if comment.user == request.user %}
+                    <a href="{% url 'delete_comment' comment.id %}" style="margin-left: 10px; color: red;">Delete</a>
+                {% endif %}
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+</div>
+
+    {% endblock %}
+
+

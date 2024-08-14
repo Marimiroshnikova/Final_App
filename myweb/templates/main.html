@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="UTF-8">
+        {% block title %}{% endblock %}
+        <link rel="shortcut icon" href="{% static 'images/technology.png' %}" type="image/x-icon" />
+        <link rel="stylesheet" href="{% static 'styles/Styles.css' %}">
+    </head>
+    <body>
+
+        {% include 'navbar.html' %}
+
+        {% if messages %}
+
+                {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button class="btn-close" type="button" data-bs-dismiss="alert"></button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+        {% endif %}
+
+        {% block content %}
+
+
+        {% endblock %}
+
+
+
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>
