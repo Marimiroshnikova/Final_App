@@ -5,24 +5,29 @@
 
     {% block content %}
 
-        <h1> {{ course.name }}</h1>
-        <h2>
-            {% for level in course.level.all %}
-            {{ level }} level
-            {% endfor %}
-        </h2>
-        <h3> {{ course.format }}</h3>
-        <h4> {{ course.time }}</h4>
-        <h5> {{ course.price}}</h5>
+    <div>
+                <h1> {{ course.name }}</h1>
+                <h2>
+                    {% for level in course.level.all %}
+                    {{ level }} level
+                    {% endfor %}
+                </h2>
+                <h3> {{ course.format }}</h3>
+                <h4> {{ course.time }}</h4>
+                <h5> {{ course.price}}</h5>
 
-        <br><br><br>
+                <br><br><br>
 
-<p>{{ course.description }}</p>
-{% load static %}
+        <textarea rows="4" cols="50">{{ course.description }}</textarea>
+        {% load static %}
 
-<embed src="{% static course.file.url %}" width="100%" height="1000px" scrolling="auto">
+        <br><br>
 
-<br><br>
+
+        <embed src="{% static course.file.url %}" width="100%" height="1000px" scrolling="auto" margin-left="200px">
+        <br><br>
+
+    </div>
 
 <div style="margin-left: 30px">
     <h1>Comments:</h1>
